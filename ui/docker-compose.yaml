@@ -1,0 +1,17 @@
+version: "3.4"
+
+services:
+
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production-stage
+    ports:
+      - 8082:80
+    networks: 
+      - ui
+  
+networks:
+  ui:
+    driver: "bridge"
