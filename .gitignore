@@ -1,0 +1,29 @@
+
+
+# package directories
+*node_modules*
+coverage
+reports
+
+# Build directory
+.webpackNS
+.webpack
+.serverless
+.scannerwork
+.sonar
+
+# Jetbrains directories
+.idea
+
+# macOS
+.DS_Store
+
+# The environment files
+.env
+env.*
+environment.yml
+
+
+
+
+
