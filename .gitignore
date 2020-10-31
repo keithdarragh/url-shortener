@@ -5,18 +5,10 @@
 coverage
 reports
 
-# Build directory
-.webpackNS
-.webpack
-.serverless
-.scannerwork
-.sonar
-
-# Jetbrains directories
-.idea
-
 # macOS
 .DS_Store
+
+*.log
 
 # The environment files
 .env
