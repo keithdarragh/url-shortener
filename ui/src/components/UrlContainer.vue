@@ -33,7 +33,6 @@ export default defineComponent({
   },
   data: () => ({
     urls: [],
-    parentmessage: '',
   }),
   created() {
     this.getAllUrls();

@@ -40,6 +40,7 @@ export default defineComponent({
           .then((response) => {
             console.log(response);
             this.url = '';
+            this.urlError = '';
             // eslint-disable-next-line vue/custom-event-name-casing
             this.$emit('addedUrl', 'someValue');
           })
