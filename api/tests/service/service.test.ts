@@ -18,6 +18,6 @@ describe('createShortenedUrl', () => {
 
     const shortUrlObj = await createShortenedUrl('http://google.com');
 
-    expect(JSON.parse(JSON.stringify(shortUrlObj))).toMatchObject(document);
+    expect(JSON.parse(JSON.stringify(shortUrlObj))).toMatchObject([document, 201]);
   });
 });

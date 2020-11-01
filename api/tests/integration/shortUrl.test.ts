@@ -84,7 +84,7 @@ describe('short url', () => {
           fullUrl: 'http://google.com',
         });
 
-      expect(res2.status).toEqual(201);
+      expect(res2.status).toEqual(200);
       expect(res2.body.fullUrl).toEqual('http://google.com');
       expect(res1.body.shortUrl).toEqual(res2.body.shortUrl);
     });

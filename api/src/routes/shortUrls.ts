@@ -28,8 +28,9 @@ router.get('/', async (req: Request, res: Response) => {
 router.post('/', async (req: Request, res: Response) => {
   const { fullUrl } = req.body;
 
-  const shortUrl = await createShortenedUrl(fullUrl);
-  return res.status(201).send(shortUrl);
+  const shortUrlTuple = await createShortenedUrl(fullUrl);
+
+  return res.status(shortUrlTuple[1]).send(shortUrlTuple[0]);
 });
 
 export default router;

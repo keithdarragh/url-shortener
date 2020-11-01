@@ -1,13 +1,16 @@
 import { ShortUrl, ShortUrlDoc } from '../model/shortUrl';
+import { isValidUrl } from '../helpers/url';
+import { unproccessableError, ErrorObj, cantCreateError } from '../helpers/errors';
 
 const KEYALREADYEXISTS = 11000;
 
-const getExisitingFullUrl = async (fullUrl: string) => {
+const getExisitingFullUrl = async (fullUrl: string): Promise<ShortUrlDoc | null> => {
   const shortUrl = await ShortUrl.findOne({ fullUrl });
   return shortUrl;
 };
 
-const handleError = async (errorMsg: any, shortUrl: ShortUrlDoc) => {
+const handleError = async (errorMsg: any, shortUrl: ShortUrlDoc):
+Promise<[ShortUrlDoc | ErrorObj, number]> => {
   let error = errorMsg;
   if (error.code === KEYALREADYEXISTS && 'shortUrl' in error.keyPattern) {
     let attempts = 0;
@@ -18,28 +21,36 @@ const handleError = async (errorMsg: any, shortUrl: ShortUrlDoc) => {
         .catch((err) => err);
       attempts += 1;
       if (typeof shortUrlObj === typeof shortUrl) {
-        return shortUrlObj;
+        return [shortUrlObj, 201];
       }
       error = shortUrlObj;
     }
   }
 
   if (error.code === KEYALREADYEXISTS && 'fullUrl' in error.keyPattern) {
-    return getExisitingFullUrl(shortUrl.fullUrl);
+    const existingUrl = await getExisitingFullUrl(shortUrl.fullUrl);
+    return [existingUrl!, 200];
   }
 
-  return null;
+  return cantCreateError('error invalid url');
 };
 
-const createShortenedUrl = async (url: string) => {
-  const shortUrl = ShortUrl.build({ fullUrl: url });
+const createShortenedUrl = async (url: string): Promise<[ShortUrlDoc | ErrorObj, number]> => {
+  if (isValidUrl(url)) {
+    const shortUrl = ShortUrl.build({ fullUrl: url });
 
-  // let error = await shortUrl.save().catch((err) => err);
-  const savedShortUrlObj = await shortUrl.save()
-    .then((urlObj) => urlObj)
-    .catch((err) => handleError(err, shortUrl));
+    const savedShortUrlObj = await shortUrl.save()
+      .then((urlObj) => urlObj)
+      .catch((err) => err);
 
-  return savedShortUrlObj;
+    if (savedShortUrlObj instanceof Error) {
+      return handleError(savedShortUrlObj, shortUrl);
+    }
+
+    return [savedShortUrlObj, 201];
+  }
+
+  return unproccessableError('error invalid url');
 };
 
 export default createShortenedUrl;
