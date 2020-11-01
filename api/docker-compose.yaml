@@ -40,6 +40,9 @@ services:
     environment:
       - ENV_NAME=dev
       - DB_SERVER=mongo
+      - MONGO_URL=mongo
+      - MONGO_PORT=27017
+      - DB_NAME=shortUrl
     command: npm run test
     depends_on:
       - mongo
