@@ -7,10 +7,14 @@ const router = express.Router();
 // get all shortened urls
 router.get('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
-  const shortUrl = await ShortUrl.findOne({ id });
+  try {
+    const shortUrl = await ShortUrl.findOne({ _id: id });
 
-  if (shortUrl) {
-    return res.status(200).send(shortUrl);
+    if (shortUrl) {
+      return res.status(200).send(shortUrl);
+    }
+  } catch (error) {
+    console.log('error finding id');
   }
 
   return res.status(404).send({
