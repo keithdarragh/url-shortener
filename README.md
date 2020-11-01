@@ -14,8 +14,20 @@ The ui can be found on `localhost:8082`
 
 Tests can be run in the api directory
 
+### Run api tests
+
 1. navigate to the api directory `cd api`
 
 2. run 
 
 ``` docker-compose run api-test```
+
+### Run ui tests
+
+1. navigate to the api directory `cd ui`
+
+2. run 
+
+``` docker-compose run ui-test```
+
+

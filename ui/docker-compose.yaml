@@ -11,6 +11,15 @@ services:
       - 8082:80
     networks: 
       - ui
+
+  ui-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test
+    command: npm run test:unit
+    networks:
+      - ui
   
 networks:
   ui:
